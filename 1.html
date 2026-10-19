@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chúc Mừng Ngày Phụ Nữ Việt Nam 20/10</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     1. BIẾN MÀU SẮC - CHỈNH SỬA TẠI ĐÂY ĐỂ ĐỔI TÔNG MÀU
+     ========================================================= */
+  :root {
+    --bg-dark-1: #14001f;
+    --bg-dark-2: #230033;
+    --color-blob-1: #ff6fb0;
+    --color-blob-2: #a855f7;
+    --color-blob-3: #ffd56b;
+    --color-blob-4: #ff3d81;
+    --color-accent: #ff6fb0;
+    --color-gold: #ffd56b;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(160deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 100%);
+    padding: 20px;
+  }
+
+  /* =========================================================
+     2. NỀN LIQUID GLASS - CÁC KHỐI CHẤT LỎNG CHUYỂN ĐỘNG
+     (Chỉ dùng transform + opacity => được GPU tăng tốc, không giật)
+     ========================================================= */
+  .liquid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    filter: url(#goo) blur(2px);
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+
+  .blob-1 {
+    width: 42vw; height: 42vw;
+    top: -10%; left: -8%;
+    background: radial-gradient(circle at 30% 30%, var(--color-blob-1), transparent 70%);
+    animation: moveBlob1 16s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 38vw; height: 38vw;
+    top: 20%; right: -12%;
+    background: radial-gradient(circle at 60% 40%, var(--color-blob-2), transparent 70%);
+    animation: moveBlob2 20s ease-in-out infinite;
+  }
+  .blob-3 {
+    width: 34vw; height: 34vw;
+    bottom: -14%; left: 10%;
+    background: radial-gradient(circle at 50% 50%, var(--color-blob-3), transparent 70%);
+    animation: moveBlob3 18s ease-in-out infinite;
+  }
+  .blob-4 {
+    width: 30vw; height: 30vw;
+    bottom: -8%; right: 8%;
+    background: radial-gradient(circle at 40% 60%, var(--color-blob-4), transparent 70%);
+    animation: moveBlob4 22s ease-in-out infinite;
+  }
+
+  @keyframes moveBlob1 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(8vw,10vh) scale(1.15);} }
+  @keyframes moveBlob2 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-10vw,8vh) scale(1.2);} }
+  @keyframes moveBlob3 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(6vw,-8vh) scale(1.1);} }
+  @keyframes moveBlob4 { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-8vw,-6vh) scale(1.25);} }
+
+  .liquid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    backdrop-filter: blur(60px) saturate(140%);
+    -webkit-backdrop-filter: blur(60px) saturate(140%);
+    background: rgba(20, 0, 30, 0.25);
+    pointer-events: none;
+  }
+
+  .svg-filters { position: absolute; width: 0; height: 0; }
+
+  /* =========================================================
+     3. ÁNH SÁNG CHIẾU LÊN TRÊN
+     ========================================================= */
+  .light-glow-base {
+    position: fixed;
+    left: 50%;
+    bottom: -25%;
+    width: 150vw;
+    height: 65vh;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center,
+                rgba(255, 213, 160, 0.4) 0%,
+                rgba(255, 111, 176, 0.18) 35%,
+                transparent 70%);
+    filter: blur(40px);
+    z-index: 1;
+    pointer-events: none;
+    animation: glowPulse 6s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+    50%      { opacity: 1;    transform: translateX(-50%) scale(1.08); }
+  }
+
+  .light-rays {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .ray {
+    position: absolute;
+    bottom: -15%;
+    height: 160%;
+    transform-origin: bottom center;
+    filter: blur(5px);
+    will-change: transform, opacity;
+    animation: raySway ease-in-out infinite, rayPulse ease-in-out infinite;
+  }
+
+  @keyframes raySway {
+    0%, 100% { transform: rotate(var(--angle, 0deg)); }
+    50%      { transform: rotate(calc(var(--angle, 0deg) * -1)); }
+  }
+
+  @keyframes rayPulse {
+    0%, 100% { opacity: var(--op-min, 0.15); }
+    50%      { opacity: var(--op-max, 0.4); }
+  }
+
+  /* =========================================================
+     4. CANVAS DUY NHẤT CHO TẤT CẢ HIỆU ỨNG HẠT
+     ========================================================= */
+  #fxCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* =========================================================
+     5. THIỆP CHÍNH - GLASSMORPHISM
+     ========================================================= */
+  .card {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 560px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(255,255,255,0.03);
+    padding: 40px 32px;
+    text-align: center;
+    color: #fdf6ff;
+    animation: cardAppear 1.2s ease-out;
+  }
+
+  @keyframes cardAppear {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .heart-icon {
+    font-size: 42px;
+    margin-bottom: 10px;
+    animation: beat 1.4s infinite ease-in-out;
+    filter: drop-shadow(0 0 10px var(--color-accent));
+  }
+
+  @keyframes beat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.18);} }
+
+  /* 👉 TÊN NGƯỜI NHẬN NẰM TRONG THẺ <h1> Ở PHẦN BODY (span.name) */
+  .card h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.3rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 18px;
+    color: #fff;
+    word-break: break-word; /* Giúp tên dài không bị tràn khung trên màn nhỏ */
+  }
+
+  .card h1 .name {
+    background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* 👉 SỬA NỘI DUNG LỜI CHÚC TẠI THẺ <p class="message"> */
+  .message {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    color: #f3e8ff;
+    margin-bottom: 26px;
+    opacity: 0.95;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+
+  .box {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 16px 10px;
+    transition: transform 0.3s ease, background 0.3s ease;
+    cursor: default;
+  }
+
+  .box:hover { transform: translateY(-5px) scale(1.03); background: rgba(255, 255, 255, 0.14); }
+  .box .icon { font-size: 26px; display: block; margin-bottom: 6px; }
+  .box .label { font-size: 0.92rem; font-weight: 600; color: #ffe3f1; }
+
+  /* 👉 ĐỔI CHỮ KÝ TẠI THẺ <p class="signature"> */
+  .signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.3rem;
+    color: var(--color-gold);
+    border-top: 1px dashed rgba(255,255,255,0.25);
+    padding-top: 16px;
+    margin-top: 6px;
+  }
+
+  /* =========================================================
+     6. RESPONSIVE - MÀN HÌNH NHỎ (MOBILE)
+     ========================================================= */
+  @media (max-width: 480px) {
+    .card { padding: 28px 20px; border-radius: 22px; }
+    .card h1 { font-size: 1.65rem; } /* 👉 Thu nhỏ tiêu đề vì tên dài trên mobile */
+    .message { font-size: 0.94rem; }
+    .grid { gap: 10px; }
+    .box { padding: 12px 6px; }
+    .box .icon { font-size: 22px; }
+    .box .label { font-size: 0.82rem; }
+    .signature { font-size: 1.1rem; }
+    .heart-icon { font-size: 36px; }
+    .blob-1, .blob-2, .blob-3, .blob-4 { width: 70vw; height: 70vw; }
+    .light-glow-base { height: 50vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .light-glow-base, .ray, .heart-icon { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- SVG filter goo - tạo hiệu ứng các khối chất lỏng dính/hoà vào nhau -->
+  <svg class="svg-filters">
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
+      <feColorMatrix in="blur" mode="matrix"
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+    </filter>
+  </svg>
+
+  <!-- Nền Liquid Glass -->
+  <div class="liquid-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+  <div class="liquid-overlay"></div>
+
+  <!-- Ánh sáng chiếu lên trên -->
+  <div class="light-glow-base"></div>
+  <div class="light-rays" id="lightRays"></div>
+
+  <!-- Canvas DUY NHẤT xử lý toàn bộ hiệu ứng hạt -->
+  <canvas id="fxCanvas"></canvas>
+
+  <!-- ============================================================
+       THIỆP CHÚC MỪNG CHÍNH
+       ============================================================ -->
+  <div class="card">
+    <div class="heart-icon">💖</div>
+
+    <!-- 👉 TÊN NGƯỜI NHẬN ĐÃ ĐƯỢC CẬP NHẬT TẠI ĐÂY -->
+    <h1>Gửi nàng thơ <span class="name">Hoàng Thị Hương Giang</span></h1>
+
+    <!-- 👉 SỬA NỘI DUNG LỜI CHÚC TẠI ĐÂY -->
+    <p class="message">
+      Nhân ngày 20/10, chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa tươi thắm nhất.
+      Mong rằng mỗi ngày trôi qua đều ngập tràn niềm vui, nụ cười luôn nở trên môi
+      và hạnh phúc luôn ở bên em. Cảm ơn em vì đã luôn là nguồn động lực và
+      là điều tuyệt vời nhất trong cuộc sống của anh.
+    </p>
+
+    <div class="grid">
+      <div class="box"><span class="icon">🌸</span><span class="label">Luôn luôn xinh đẹp</span></div>
+      <div class="box"><span class="icon">😊</span><span class="label">Thật hạnh phúc</span></div>
+      <div class="box"><span class="icon">🕊️</span><span class="label">Bình yên</span></div>
+      <div class="box"><span class="icon">💞</span><span class="label">Phúc yêu thương</span></div>
+    </div>
+
+    <!-- 👉 ĐỔI LỜI NHẮN / CHỮ KÝ CUỐI THIỆP TẠI ĐÂY -->
+    <p class="signature">Yêu em thật nhiều — Mãi mãi bên em ❤️</p>
+  </div>
+
+<script>
+/* =================================================================
+   PHẦN JAVASCRIPT - ĐÃ TỐI ƯU HIỆU NĂNG
+   ================================================================= */
+
+const canvas = document.getElementById('fxCanvas');
+const ctx = canvas.getContext('2d');
+let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+let W = 0, H = 0;
+function resizeCanvas() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+/* 👉 CẤU HÌNH SỐ LƯỢNG - CHỈNH CÁC SỐ NÀY ĐỂ TĂNG/GIẢM HIỆU ỨNG */
+const SO_LUONG_SAO       = 100;
+const MAX_PETALS         = 22;
+const MAX_HEARTS         = 45;
+const MAX_TRAIL          = 40;
+const KHOANG_CACH_HOA_MS = 480;
+const KHOANG_CACH_TIM_MS = 140;
+
+const BIEU_TUONG_HOA   = ['🌸', '💮', '🌹'];
+const BIEU_TUONG_TIM   = ['💗', '💖', '❤️', '💕', '💞', '💓'];
+const BIEU_TUONG_TRAIL = ['💖', '✨', '💫'];
+const BIEU_TUONG_BURST = ['❤️', '⭐', '💛', '💜'];
+
+const stars = [];
+const particles = [];
+
+for (let i = 0; i < SO_LUONG_SAO; i++) {
+  stars.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.6 + 0.4,
+    alpha: Math.random(),
+    delta: (Math.random() * 0.02) + 0.004
+  });
+}
+
+function demSoLuong(type) {
+  let c = 0;
+  for (let i = 0; i < particles.length; i++) if (particles[i].type === type) c++;
+  return c;
+}
+
+function sinhCanhHoa() {
+  if (demSoLuong('petal') >= MAX_PETALS) return;
+  particles.push({
+    type: 'petal',
+    char: BIEU_TUONG_HOA[Math.floor(Math.random() * BIEU_TUONG_HOA.length)],
+    x: Math.random() * W,
+    y: -20,
+    size: Math.random() * 14 + 14,
+    vy: Math.random() * 40 + 30,
+    swayAmp: Math.random() * 30 + 10,
+    swayFreq: Math.random() * 1.2 + 0.6,
+    rotation: Math.random() * 360,
+    rotSpeed: (Math.random() * 60 - 30),
+    life: 0,
+    maxLife: Math.random() * 4 + 7,
+    alpha: 1
+  });
+}
+
+function sinhTraiTim() {
+  if (demSoLuong('heart') >= MAX_HEARTS) return;
+  particles.push({
+    type: 'heart',
+    char: BIEU_TUONG_TIM[Math.floor(Math.random() * BIEU_TUONG_TIM.length)],
+    x: Math.random() * W,
+    y: H + 20,
+    size: Math.random() * 18 + 14,
+    vy: Math.random() * 50 + 45,
+    swayAmp: Math.random() * 40 + 15,
+    swayFreq: Math.random() * 1 + 0.5,
+    rotation: Math.random() * 30 - 15,
+    rotSpeed: (Math.random() * 40 - 20),
+    life: 0,
+    maxLife: Math.random() * 4 + 5,
+    alpha: 0
+  });
+}
+
+function sinhHatTrail(x, y) {
+  if (demSoLuong('trail') >= MAX_TRAIL) return;
+  particles.push({
+    type: 'trail',
+    char: BIEU_TUONG_TRAIL[Math.floor(Math.random() * BIEU_TUONG_TRAIL.length)],
+    x, y,
+    size: Math.random() * 10 + 12,
+    vx: (Math.random() * 30 - 15),
+    vy: (Math.random() * -50 - 20),
+    rotation: 0, rotSpeed: 0,
+    life: 0,
+    maxLife: 0.8,
+    alpha: 1
+  });
+}
+
+function sinhBurst(x, y) {
+  const SO_HAT = 18;
+  for (let i = 0; i < SO_HAT; i++) {
+    const angle = (Math.PI * 2 * i) / SO_HAT + Math.random() * 0.3;
+    const speed = 100 + Math.random() * 120;
+    particles.push({
+      type: 'burst',
+      char: BIEU_TUONG_BURST[Math.floor(Math.random() * BIEU_TUONG_BURST.length)],
+      x, y,
+      size: Math.random() * 10 + 14,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      friction: 0.92,
+      rotation: 0, rotSpeed: 0,
+      life: 0,
+      maxLife: 0.9,
+      alpha: 1
+    });
+  }
+}
+
+setInterval(sinhCanhHoa, KHOANG_CACH_HOA_MS);
+setInterval(sinhTraiTim, KHOANG_CACH_TIM_MS);
+
+let lastTime = performance.now();
+let dangChay = true;
+
+function capNhatVaVe(now) {
+  if (!dangChay) { lastTime = now; requestAnimationFrame(capNhatVaVe); return; }
+
+  const dt = Math.min((now - lastTime) / 1000, 0.05);
+  lastTime = now;
+
+  ctx.clearRect(0, 0, W, H);
+
+  for (let i = 0; i < stars.length; i++) {
+    const s = stars[i];
+    s.alpha += s.delta;
+    if (s.alpha <= 0 || s.alpha >= 1) s.delta *= -1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+    ctx.shadowColor = 'rgba(255,220,255,0.8)';
+    ctx.shadowBlur = 4;
+    ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.life += dt;
+
+    if (p.type === 'petal') {
+      p.y += p.vy * dt;
+      p.x += Math.sin(p.life * p.swayFreq * Math.PI) * p.swayAmp * dt;
+      p.rotation += p.rotSpeed * dt;
+      p.alpha = p.life > p.maxLife - 1 ? Math.max(0, p.maxLife - p.life) : 1;
+      if (p.y > H + 30 || p.life > p.maxLife) { particles.splice(i, 1); continue; }
+    }
+    else if (p.type === 'heart') {
+      p.y -= p.vy * dt;
+      p.x += Math.sin(p.life * p.swayFreq * Math.PI) * p.swayAmp * dt;
+      p.rotation += p.rotSpeed * dt;
+      const progress = p.life / p.maxLife;
+      p.alpha = progress < 0.12 ? progress / 0.12 : (progress > 0.75 ? Math.max(0, 1 - (progress - 0.75) / 0.25) : 1);
+      if (p.y < -40 || p.life > p.maxLife) { particles.splice(i, 1); continue; }
+    }
+    else if (p.type === 'trail') {
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.alpha = Math.max(0, 1 - p.life / p.maxLife);
+      if (p.life > p.maxLife) { particles.splice(i, 1); continue; }
+    }
+    else if (p.type === 'burst') {
+      p.vx *= p.friction;
+      p.vy *= p.friction;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.alpha = Math.max(0, 1 - p.life / p.maxLife);
+      if (p.life > p.maxLife) { particles.splice(i, 1); continue; }
+    }
+
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha));
+    ctx.translate(p.x, p.y);
+    if (p.rotation) ctx.rotate((p.rotation * Math.PI) / 180);
+    ctx.font = `${p.size}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(p.char, 0, 0);
+    ctx.restore();
+  }
+
+  requestAnimationFrame(capNhatVaVe);
+}
+requestAnimationFrame(capNhatVaVe);
+
+document.addEventListener('visibilitychange', () => {
+  dangChay = !document.hidden;
+  lastTime = performance.now();
+});
+
+let lastTrailTime = 0;
+window.addEventListener('pointermove', (e) => {
+  const now = Date.now();
+  if (now - lastTrailTime < 45) return;
+  lastTrailTime = now;
+  sinhHatTrail(e.clientX, e.clientY);
+}, { passive: true });
+
+window.addEventListener('click', (e) => {
+  sinhBurst(e.clientX, e.clientY);
+}, { passive: true });
+
+/* Sinh các tia sáng chiếu lên */
+const lightRaysContainer = document.getElementById('lightRays');
+const SO_LUONG_TIA_SANG = 7;
+const MAU_TIA_SANG = [
+  'rgba(255,255,255,0.55)',
+  'rgba(255,213,160,0.5)',
+  'rgba(255,160,210,0.45)'
+];
+
+for (let i = 0; i < SO_LUONG_TIA_SANG; i++) {
+  const ray = document.createElement('div');
+  ray.className = 'ray';
+
+  const leftPercent = (i / SO_LUONG_TIA_SANG) * 100 + (Math.random() * 8 - 4);
+  const widthVW = Math.random() * 4 + 3;
+  const angle = Math.random() * 14 - 7;
+  const duration1 = Math.random() * 6 + 6;
+  const duration2 = Math.random() * 4 + 3;
+  const delay = Math.random() * -8;
+  const color = MAU_TIA_SANG[Math.floor(Math.random() * MAU_TIA_SANG.length)];
+
+  ray.style.left = leftPercent + '%';
+  ray.style.width = widthVW + 'vw';
+  ray.style.background = `linear-gradient(to top, ${color}, rgba(255,255,255,0) 75%)`;
+  ray.style.setProperty('--angle', angle + 'deg');
+  ray.style.setProperty('--op-min', 0.12);
+  ray.style.setProperty('--op-max', 0.4 + Math.random() * 0.2);
+  ray.style.animationDuration = `${duration1}s, ${duration2}s`;
+  ray.style.animationDelay = `${delay}s, ${delay}s`;
+
+  lightRaysContainer.appendChild(ray);
+}
+</script>
+</body>
+</html>
